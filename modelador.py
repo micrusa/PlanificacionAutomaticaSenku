@@ -12,6 +12,7 @@ def modelar(casillas_coord, casilla_inicial):
     Casilla = UserType("Casilla")
     problema.user_types.append(Casilla)
 
+    # Creamos un diccionario para acceder rápidamente a las casillas por coordenadas
     casillas = {}
     for (x, y) in casillas_coord:
         obj_casilla = Object(f"c_{x}_{y}", Casilla)

@@ -1,4 +1,4 @@
-def generar_tablero_1():
+def generar_tablero_2():
     lista_casillas = []
     for fila in range(1, 8):
         for col in range(1, 8):
