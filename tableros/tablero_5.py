@@ -9,5 +9,6 @@ def generar_tablero_5():
             lista_casillas.append((fila, col))
 
     hueco_inicial = (5, 5)
+    objetivo = (5,5)
 
-    return (lista_casillas, hueco_inicial)
+    return (lista_casillas, hueco_inicial, objetivo, 5)

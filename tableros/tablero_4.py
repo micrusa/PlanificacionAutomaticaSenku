@@ -7,5 +7,6 @@ def generar_tablero_4():
             lista_casillas.append((fila, col))
 
     hueco_inicial = (4, 4)
+    objetivo = (4, 4)
 
-    return (lista_casillas, hueco_inicial)
+    return (lista_casillas, hueco_inicial, objetivo, 4)
