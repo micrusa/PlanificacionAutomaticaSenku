@@ -1,8 +1,10 @@
+import glob
 import math
 import os
-import glob
 import re
+
 from unified_planning.io import PDDLReader
+
 from guardador_soluciones import guardar_solucion
 
 
@@ -93,7 +95,9 @@ def beam_search(problema_inicial, ancho_beam=40):
     for de in casillas:
         for sobre in casillas:
             for a in casillas:
-                if problema_inicial.initial_value(movimiento_valido(de, sobre, a)).is_true():
+                if problema_inicial.initial_value(
+                    movimiento_valido(de, sobre, a)
+                ).is_true():
                     movimientos_validos.append((de, sobre, a))
 
     # Precomputamos los valores de la pagoda específicos para este tablero
@@ -141,7 +145,7 @@ def beam_search(problema_inicial, ancho_beam=40):
 
 
 if __name__ == "__main__":
-    anchos = [5, 10, 20, 40]
+    anchos = [5, 10, 20, 40, 80, 160, 320, 640, 1280]
     reader = PDDLReader()
 
     # Buscamos todos los archivos de problemas en la carpeta pddl
@@ -165,6 +169,8 @@ if __name__ == "__main__":
             plan = beam_search(problema_inicial, ancho_beam=ancho)
             if plan:
                 print(f"  Ancho {ancho:2d}: Solución encontrada de {len(plan)} pasos.")
+                guardar_solucion("beam-search", num_tablero, plan, ancho_beam=ancho)
+                break
             else:
                 print(f"  Ancho {ancho:2d}: No se encontró solución.")
             guardar_solucion("beam-search", num_tablero, plan, ancho_beam=ancho)
