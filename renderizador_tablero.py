@@ -14,10 +14,10 @@ def renderizar_tablero(lista_casillas, hueco_inicial, num_tablero):
     min_col = min(y for x, y in lista_casillas)
     max_col = max(y for x, y in lista_casillas)
 
-    # Imprimimos fila a fila
-    for x in range(min_fila, max_fila + 1):
+    # Imprimimos columna por fila (y es la fila, x es la columna)
+    for y in range(min_col, max_col + 1):
         linea = ""
-        for y in range(min_col, max_col + 1):
+        for x in range(min_fila, max_fila + 1):
             if (x, y) == hueco_inicial:
                 linea += " ·"  # Hueco inicial vacío
             elif (x, y) in lista_casillas:
