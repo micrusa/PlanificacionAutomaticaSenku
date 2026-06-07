@@ -1,43 +1,35 @@
 from unified_planning.shortcuts import OneshotPlanner
 from modelador import modelar
 from tableros.tablero import todos_los_tableros
+from guardador_soluciones import guardar_solucion
 
-# 1. Elegimos un tablero para probar. 
-tablero_info = todos_los_tableros()[1]
-if tablero_info and all(tablero_info):
-    lista_casillas, hueco_inicial, objetivo, num_tablero = tablero_info
-else:
-    print("Error: No se pudo cargar la información del tablero.")
-    exit()
 
-# 2. Genera el problema en memoria usando el modelador
-problema = modelar(lista_casillas, hueco_inicial, objetivo)
+# Resuelve todos los tableros usando el planificador Oneshot fast-downward
+def resolver_todos():
+    tableros = todos_los_tableros()
 
-print("==================================================")
-print(f"El problema del Senku (Tablero {num_tablero}) ha sido modelado.")
-print(f"Tipo de problema: {problema.kind}")
-print("==================================================")
+    with OneshotPlanner(name="fast-downward") as planner:
+        for tablero_info in tableros:
+            lista_casillas, hueco_inicial, objetivo, num_tablero = tablero_info
+            print(f"\nResolviendo Tablero {num_tablero} con Fast-Downward...")
 
-# 3. Usamos el planificador 'fast-downward' que es compatible con el modelo
-with OneshotPlanner(name='fast-downward') as planner:
-    print(f"Planificador seleccionado: {planner.name}")
-    
-    # Comprobamos si el planificador puede resolver este tipo de problema
-    if planner.supports(problema.kind):
-        print("El planificador es compatible. Resolviendo...")
-        
-        # Resolvemos el problema
-        result = planner.solve(problema)
+            problema = modelar(lista_casillas, hueco_inicial, objetivo)
 
-        # 4. Imprimimos el resultado
-        if result.plan:
-            print("\n¡Solución encontrada!")
-            print(f"Longitud del plan: {len(result.plan.actions)} movimientos.")
-            for i, action in enumerate(result.plan.actions):
-                print(f"{i+1:2d}: {action}")
-        else:
-            print("\nNo se encontró solución.")
-            print(f"Razón del fallo: {result.status.name}")
+            if planner.supports(problema.kind):
+                result = planner.solve(problema, timeout=30)
 
-    else:
-        print("El planificador seleccionado no es compatible con el problema.")
+                if result.plan:
+                    print(f"  Solución encontrada de {len(result.plan.actions)} pasos.")
+                    plan = [str(action) for action in result.plan.actions]
+                else:
+                    print("  No se encontró solución.")
+                    plan = None
+
+                guardar_solucion("fast-downward", num_tablero, plan)
+            else:
+                print("  El planificador no soporta este tipo de problema.")
+                guardar_solucion("fast-downward", num_tablero, None)
+
+
+if __name__ == "__main__":
+    resolver_todos()
