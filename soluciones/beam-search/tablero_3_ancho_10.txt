@@ -1,3 +1,4 @@
+Tiempo de resolución: 2.5444 segundos.
 Longitud del plan: 37 movimientos.
  1: saltar(c_4_3, c_4_4, c_4_5)
  2: saltar(c_6_3, c_5_3, c_4_3)

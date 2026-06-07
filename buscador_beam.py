@@ -145,6 +145,8 @@ def beam_search(problema_inicial, ancho_beam=40):
 
 
 if __name__ == "__main__":
+    import time
+
     anchos = [5, 10, 20, 40, 80, 160, 320, 640, 1280]
     reader = PDDLReader()
 
@@ -166,11 +168,14 @@ if __name__ == "__main__":
         problema_inicial = reader.parse_problem("pddl/dominio.pddl", ruta_problema)
 
         for ancho in anchos:
+            inicio = time.time()
             plan = beam_search(problema_inicial, ancho_beam=ancho)
+            tiempo = time.time() - inicio
             if plan:
-                print(f"  Ancho {ancho:2d}: Solución encontrada de {len(plan)} pasos.")
-                guardar_solucion("beam-search", num_tablero, plan, ancho_beam=ancho)
+                print(f"  Ancho {ancho:2d}: Solución encontrada de {len(plan)} pasos. ({tiempo:.4f}s)")
+                guardar_solucion("beam-search", num_tablero, plan, ancho_beam=ancho, tiempo_segundos=tiempo)
                 break
             else:
-                print(f"  Ancho {ancho:2d}: No se encontró solución.")
-            guardar_solucion("beam-search", num_tablero, plan, ancho_beam=ancho)
+                print(f"  Ancho {ancho:2d}: No se encontró solución. ({tiempo:.4f}s)")
+            guardar_solucion("beam-search", num_tablero, plan, ancho_beam=ancho, tiempo_segundos=tiempo)
+

@@ -11,10 +11,10 @@ Este proyecto modela el juego usando PDDL para separar la lógica del dominio de
 
 ### Estructura del repositorio
 - `/pddl`: Dominio y problemas en PDDL.
-- `/src`: Implementaciones en Python (búsquedas, heurísticas).
-- `/results`: Experimentos y análisis de rendimiento.
+- `/soluciones`: Soluciones de los experimentos
+- `/tableros`: Modelo de los tableros
 
-Instalaciones:
-pip install up-pyperplan
-pip install up-enhsp
-pip install up-fast-downward
+### Archivos ejecutables:
+- `buscador_beam.py`: Ejecuta el experimento de Beam Search
+- `gen_pddl.py`: Genera archivos PDDL de dominio y problemas (para todos los tableros)
+- `resolver_automatico.py`: Ejecuta el experimento de fast-downward. Es necesario instalar el planificador con `pip install up-fast-downward`
